@@ -2,31 +2,13 @@
 #include <stdlib.h>
 #include <math.h>
 
-int game_1[7][7] = {{0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0}
 
-};
-int game_2[7][7] = {{0,0,0,0,0,0,0},
-{0,0,0,1,0,0,0},
-{0,0,1,0,0,0,0},
-{0,0,1,0,1,0,0},
-{0,1,1,1,0,0,0},
-{0,0,0,0,1,0,0},
-{0,0,0,0,0,0,0}
-
-};
-
-void birth_death(int column, int row, int game_prev[7][7], int game_next[7][7])
+void birth_death(int column, int row, int game_prev[row+2][column+2], int game_next[row+2][column+2])
 {
     int i, j, m, n, alive;
-    for(i = 1; i < column+1;i++)
+    for(i = 1; i < row+1;i++)
     {
-        for(j = 1; j < row+1; j++)
+        for(j = 1; j < column+1; j++)
         {   
             alive = 0;
             for(m = i-1; m <= i+1; m++)
@@ -43,36 +25,81 @@ void birth_death(int column, int row, int game_prev[7][7], int game_next[7][7])
     }
 }
 
-void equal(int column, int row, int copy_from[7][7], int copy_to[7][7])
+void equal(int column, int row, int copy_from[row+2][column+2], int copy_to[row+2][column+2])
 {
     int i, j;
-    for(i = 1; i < column+1; i++)
+    for(i = 1; i < row+1; i++)
     {
-        for(j = 1; j < row+1; j++)
+        for(j = 1; j < column+1; j++)
         {
             copy_to[i][j] = copy_from[i][j];
         }
     }
 }
 
-int main()
+void zapis(int column, int row, int game_1[row+2][column+2])
 {
-    int column = 5, row = 5, i, j,m;
+	int game_I[row+2][column+2];
 
-    for(m = 0; m < 10; m++)
+	equal(column, row, game_1, game_I);
+	int i,j,m;
+	FILE *p;
+	
+	if((p = fopen("stan.txt", "a"))==NULL)
+	{
+		printf("Nie ma takiego pliku\n");
+		exit(1);
+	}
+	fprintf(p,"\n");
+	for(i = 1; i < column+1; i++)
+	{
+	for(j = 1; j < row+1;j++)
+	{
+	fprintf(p,"%d ",game_I[i][j]);
+	}
+	fprintf(p, "\n");
+	}
+   fclose(p);
+   
+}
+
+int main(int argc, char **argv)
+{
+    FILE *dane = fopen("dane.txt", "r");
+    int column, row, i, j;
+    fscanf(dane, "%d %d", &row, &column);
+    int game_1[row+2][column+2], game_2[row+2][column+2];
+    int n = atoi(argv[1]);
+    for(i = 0; i < column + 2; i++)
     {
-        birth_death(column,row, game_1, game_2);
-        equal(column, row, game_2, game_1);
+        game_1[0][i] = 0;
+        game_1[row+1][i] = 0;
+    }
+    for(i = 1 ; i < row + 1; i++)
+    {   
+        game_1[i][0] = 0;
+        game_1[i][column+1] = 0;
+        for(j = 1; j < column + 1; j++)
+        {
+            fscanf(dane,"%d", &game_1[i][j]);
+        }
+    }
+    /*for(i = 1; i < row + 1; i++)
+        {
+            for(j = 1; j < column + 1; j++)
+            {
+                printf("%d ",game_1[i][j]);
+            }
             printf("\n");
-    for(i = 1; i < column+1; i++)
-        {
-        for(j = 1; j < row+1;j++)
-        {
-            printf("%d ",game_2[i][j]);
         }
-        printf("\n");
-        }
-    }    
+    printf("\n");    */
+   equal(column, row , game_1, game_2);    
+    for(; n > 0; n--)
+    {
+        birth_death(column, row, game_1, game_2);
+        equal(column, row , game_2, game_1);
+        zapis(column, row, game_1);
+    }
     return 0;
 
 }
