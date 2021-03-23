@@ -12,5 +12,6 @@ void equal(int column, int row, int copy_from[row + 2][column + 2],
 void data_to_array(FILE* dane, int column, int row, int game_1[row + 2][column + 2],
 	int game_2[row + 2][column + 2]);
 
+void zapis(int column, int row, int game_1[row + 2][column + 2]);
 
 #endif
