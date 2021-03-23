@@ -3,8 +3,11 @@
 #include <math.h>
 #include "gifenc.h"
 #include "fun_main.h"
+#include "zapis.h"
+
+
 /*
-void zapis(int column, int row, int game_1[row+2][column+2])
+* zapis(int column, int row, int game_1[row + 2][column + 2])
 {
 	int game_I[row+2][column+2];
 

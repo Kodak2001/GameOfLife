@@ -1,5 +1,6 @@
 #include "zapis.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 
 void zapis(int column, int row, int game_1[row + 2][column + 2])
