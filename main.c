@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "gifenc.h"
-#include "fun_main.h""
+#include "fun_main.h"
 
 /*
 void birth_death(int column, int row, int game_prev[row+2][column+2], int game_next[row+2][column+2])
