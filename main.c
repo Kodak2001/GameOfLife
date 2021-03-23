@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include "gifenc.h"
+#include "fun_main.h""
 
-
+/*
 void birth_death(int column, int row, int game_prev[row+2][column+2], int game_next[row+2][column+2])
 {
     int i, j, m, n, alive;
@@ -37,7 +38,7 @@ void equal(int column, int row, int copy_from[row+2][column+2], int copy_to[row+
         }
     }
 }
-
+*/
 void zapis(int column, int row, int game_1[row+2][column+2])
 {
 	int game_I[row+2][column+2];
@@ -63,7 +64,7 @@ void zapis(int column, int row, int game_1[row+2][column+2])
    fclose(p);
    
 }
-
+*/
 void gif_add_frame(ge_GIF *gif, int column, int row, int game[row+2][column+2])
 {
     int i, j, k, l, pixel = 0;
@@ -84,7 +85,7 @@ void gif_add_frame(ge_GIF *gif, int column, int row, int game[row+2][column+2])
         }
         ge_add_frame(gif, 30);
 }
-
+/*
 void data_to_array(FILE *dane, int column, int row, int game_1[row+2][column+2], int game_2[row+2][column+2])
 {
     int i, j;
@@ -104,6 +105,7 @@ void data_to_array(FILE *dane, int column, int row, int game_1[row+2][column+2],
     }
     equal(column, row , game_1, game_2); 
 }
+*/
 int main(int argc, char **argv)
 {
     FILE *dane = fopen("dane.txt", "r");
