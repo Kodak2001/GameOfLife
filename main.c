@@ -64,7 +64,7 @@ void zapis(int column, int row, int game_1[row+2][column+2])
    fclose(p);
    
 }
-*/
+
 void gif_add_frame(ge_GIF *gif, int column, int row, int game[row+2][column+2])
 {
     int i, j, k, l, pixel = 0;
