@@ -289,3 +289,58 @@ ge_close_gif(ge_GIF* gif)
     close(gif->fd);
     free(gif);
 }
+
+void gif_add_frame(ge_GIF *gif, int column, int row, int game[row+2][column+2])
+{
+    int i, j, k, l, pixel = 0;
+    for(i = 1; i < row + 1; i++)
+        {
+            for(k = 0; k < 10; k++)
+            {
+                for(j = 1; j < column + 1; j++)
+                {
+                    for(l = 0; l < 10; l++)
+                    {
+                        gif->frame[pixel] = game[i][j];
+                       //printf("%d",game_1[i][j]);//
+                        pixel++;
+                    }
+                }
+            }
+        }
+        ge_add_frame(gif, 30);
+}
+
+void img_ppm(int column, int row, int game[row+2][column+2], int count)
+{
+    int i, j, k, l;
+    char name[20];
+    sprintf(name, "out%d.ppm",  count);
+    FILE *f = fopen(name, "wb");
+    fprintf(f, "P6\n%i %i 255\n", column * 30, row * 30);
+    for(i = 1; i < row + 1; i++)
+        {
+            for(k = 0; k < 30; k++)
+            {
+                for(j = 1; j < column + 1; j++)
+                {
+                    for(l = 0; l < 30; l++)
+                    {
+                        if(game[i][j])
+                        {
+                            fputc(0, f);
+                            fputc(0, f);
+                            fputc(0, f);
+                        }
+                        else
+                        { 
+                            fputc(255,f);
+                            fputc(255,f);
+                            fputc(255,f);          
+                        }                    
+                    }
+                }
+            }
+        }
+    fclose(f);
+}

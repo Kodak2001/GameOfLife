@@ -24,7 +24,8 @@ ge_GIF *ge_new_gif(
 );
 void ge_add_frame(ge_GIF *gif, uint16_t delay);
 void ge_close_gif(ge_GIF* gif);
-
+void gif_add_frame(ge_GIF *gif, int column, int row, int game[row+2][column+2]);
+void img_ppm(int column, int row, int game[row+2][column+2], int count);
 #ifdef __cplusplus
 }
 #endif

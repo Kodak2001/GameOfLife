@@ -5,55 +5,42 @@
 #include "fun_main.h"
 
 
-
-void gif_add_frame(ge_GIF *gif, int column, int row, int game[row+2][column+2])
-{
-    int i, j, k, l, pixel = 0;
-    for(i = 1; i < row + 1; i++)
-        {
-            for(k = 0; k < 10; k++)
-            {
-                for(j = 1; j < column + 1; j++)
-                {
-                    for(l = 0; l < 10; l++)
-                    {
-                        gif->frame[pixel] = game[i][j];
-                       //printf("%d",game_1[i][j]);//
-                        pixel++;
-                    }
-                }
-            }
-        }
-        ge_add_frame(gif, 30);
-}
-
 int main(int argc, char **argv)
 {
-    FILE *dane = fopen("dane.txt", "r");
+    if(argv[1][0] == 'h')
+    {
+        printf("Zasady wywolania: ilosc_cykli, plik_dane, format_graficzny_p(ppm)/g(gif)/A(oba) \n");
+        return 0;
+    }
+    FILE *dane = fopen(argv[2], "r");
     int column, row;
     fscanf(dane, "%d %d", &row, &column);
     int game_1[row+2][column+2], game_2[row+2][column+2];
     int n = atoi(argv[1]);
     data_to_array(dane, column, row, game_1, game_2);
-    ge_GIF *gif = ge_new_gif(
-        "gameoflife.gif",  
-        column * 10, row * 10,           
-        (uint8_t []) {  
-            0x00, 0x00, 0x00, 
-            0xFF, 0xFF, 0xFF, 
+        ge_GIF *gif = ge_new_gif(
+            "gameoflife.gif",  
+            column * 10, row * 10,           
+            (uint8_t []) {  
+                0xFF, 0xFF, 0xFF, 
+                0x00, 0x00, 0x00, 
 
-        },
-        1,              
-        0               
-    );   
-
+            },
+            1,              
+            0               
+        );   
     for(; n > 0; n--)
     {
         birth_death(column, row, game_1, game_2);
         equal(column, row , game_2, game_1);
         zapis(column, row, game_1);
-        gif_add_frame(gif, column, row, game_1);
-        ge_add_frame(gif, 10);        
+        if(argv[3][0]=='g'||argv[3][0]=='A')
+        {
+            gif_add_frame(gif, column, row, game_1);
+            ge_add_frame(gif, 10);
+        }
+        if(argv[3][0]=='p'||argv[3][0]=='A')
+            img_ppm(column, row, game_1, n);        
     }
     ge_close_gif(gif);
     return 0;
