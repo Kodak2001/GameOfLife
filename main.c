@@ -7,7 +7,7 @@
 
 int main(int argc, char **argv)
 {
-    if(argv[1][0] == 'h')
+    if((argv[1][0] == 'h') || (argc != 4))
     {
         printf("Zasady wywolania: ilosc_cykli, plik_dane, format_graficzny_p(ppm)/g(gif)/A(oba) \n");
         return 0;
